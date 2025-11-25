@@ -106,5 +106,45 @@ def plot_predictions(train_data = X_train,
 
 plot_predictions()
 plt.show()
+## We are going to build a model to learn the pattern of the blue dots.
+
+print("#################################################################38")
+# Building our first PyTorch model
+
+"""
+What our model does:
+ * Start with random values (weight & bias)
+ * Look at training data and adjust the random values to get closer to the ideal values we used to create the data
+
+How does it do so?:
+ 1. Gradient descent
+ 2. Backpropagation
+"""
+
+## Create linear regression model class
+class LinearRegulationModel(nn.Module): # <- almost everything in PyTorch relates to nn.Module
+    def __init__(self):
+        super().__init__()
+        self.weights = nn.Parameter(torch.randn(1, # start with a random weight value
+                                                requires_grad=True, # it can update via gradient descent
+                                                dtype=torch.float)) # PyTorch loves f32
+        self.bias = nn.Parameter(torch.randn(1, # random value again
+                                             requires_grad=True, # can update
+                                             dtype=torch.float))
+        
+        # Forward method to define the computation in the model
+        def forward(self, x: torch.Tensor) -> torch.Tensor: # x is the input data
+            return self.weights * x + self.bias # this is the linear regression formula from line 52
+
+print("#################################################################40")
+# PyTorch model building essentials
+"""
+* torch.nn - contains all of the buildings for computational graphs
+* torch.nn.Parameter - what parameters should our model try and learn, often a PyTorch layer from torch.nn will set these for us
+* torch.nn.Module - the base class for all neural network modules, if you subclass it, you should overwrite forward
+* torch.optim - this is where the optimizers in PyTorch live, they will help with gradient descent
+* def forward() - all nn.Module subclasses require you to overwrite forward, this method defines what happens in the forward computation
+"""
+# https://www.learnpytorch.io/pytorch_cheatsheet/
 
 
