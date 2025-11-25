@@ -48,10 +48,63 @@ bias = 0.3
 start = 0 
 end = 1
 step = 0.02
-X = torch.arange(start,end,step).unsqueeze(dim=1) # X is usually a matrix/tensor so it's capitalized
-y = weight * X + bias
+X = torch.arange(start,end,step).unsqueeze(dim=1) # X is usually a matrix/tensor so it's capitalized, unsqueeze adds extra dim
+y = weight * X + bias # y = wX + b
 
 print(X[:10])
 print(y[:10])
 
-print(len(X), len(y))
+print(len(X), len(y)) # What might be a better way to visualize it? Right now just numbers on a page
+
+print("#################################################################36")
+# Creating train and test sets
+
+"""
+Splitting data into training and test sets. 
+ONE OF THE MOST IMPORTANT concepts in ML in general.
+Check 4:38 in video for images or website.
+
+Training set always (60-80% of data), testing set always (10-20%), validation set often (10-20%)
+
+Let's create a training and test set with our data!
+"""
+
+## Create a train/test split
+
+train_split = int(0.8 * len(X)) # 80% of data
+X_train, y_train = X[:train_split], y[:train_split]
+X_test, y_test = X[train_split:], y[train_split:]
+
+print(len(X_train), len(y_train), len(X_test), len(y_test))
+## We have now split our data
+## Let's visualize this. MATPLOTLIB!!
+## "Visualize, visualize, visualize"
+
+def plot_predictions(train_data = X_train, 
+                     train_labels = y_train, 
+                     test_data = X_test, 
+                     test_labels = y_test, 
+                     predictions = None):
+    """
+    Plots training data, test data and compares predictions.
+    """
+    plt.figure(figsize=(10,7))
+
+    # Plot training data in blue
+    # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html 
+    plt.scatter(train_data, train_labels, c="b", s=4, label="Training data")
+
+    # Plot test data in green
+    plt.scatter(test_data, test_labels, c="g", s=4, label="Testing data")
+
+    # Are there predictions??
+    if predictions:
+        plt.scatter(test_data, predictions, c="r", s=4, label="Predictions")
+
+    # Show the legend
+    plt.legend(prop={"size": 14})
+
+plot_predictions()
+plt.show()
+
+
